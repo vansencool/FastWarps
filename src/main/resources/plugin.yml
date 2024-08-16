@@ -1,0 +1,4 @@
+name: FastWarps
+version: '${version}'
+main: dev.vansen.fastwarps.FastWarps
+api-version: '1.16'
