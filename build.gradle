@@ -8,14 +8,17 @@ version = '1.0'
 
 repositories {
     mavenCentral()
-    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
+    maven { url "https://papermc.io/repo/repository/maven-public/" }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT'
-    implementation 'com.github.max1mde:PluginSimplifier:1.0.9'
+    implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'com.github.vansencool:ConfigUtils:1.0.2'
+    implementation "io.papermc:paperlib:1.0.7"
+    implementation 'com.github.max1mde:PluginSimplifier:1.0.9'
 }
 
 def targetJavaVersion = 17
