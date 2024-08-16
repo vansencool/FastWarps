@@ -1,11 +1,15 @@
 package dev.vansen.fastwarps.commands;
 
-import dev.vansen.configutils.Configer;
+import com.maximde.pluginsimplifier.PluginHolder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class DelWarpCommand implements CommandExecutor {
 
@@ -16,14 +20,18 @@ public class DelWarpCommand implements CommandExecutor {
             return false;
         }
         if (args.length != 0) {
-            Configer.loadAsync("warps/warps.yml").thenAcceptAsync(config -> {
-                if (config.contains("warps." + args[0])) {
-                    config.set("warps." + args[0], null);
-                    config.saveAsync().thenRunAsync(() -> player.sendMessage("Warp has been deleted!"));
-                } else {
-                    player.sendMessage("Warp not found!");
+            Path warp = PluginHolder.getPluginInstance().getDataFolder().toPath().resolve("warps/" + args[0] + ".yml");
+
+            if (Files.exists(warp)) {
+                try {
+                    Files.delete(warp);
+                    player.sendMessage("Warp has been deleted!");
+                } catch (final IOException e) {
+                    e.printStackTrace();
                 }
-            });
+            } else {
+                player.sendMessage("Warp not found!");
+            }
         } else {
             player.sendMessage("Please specify a warp name");
         }

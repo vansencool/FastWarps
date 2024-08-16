@@ -1,45 +1,27 @@
 package dev.vansen.fastwarps;
 
 import com.maximde.pluginsimplifier.PluginHolder;
-import com.maximde.pluginsimplifier.command.CommandRegistrar;
 import dev.vansen.configutils.ConfigUtils;
-import dev.vansen.fastwarps.commands.*;
-import dev.vansen.fastwarps.tabcompleters.WarpTabCompleter;
+import dev.vansen.fastwarps.commands.Registrar;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.File;
 
+@SuppressWarnings("unused")
 public class FastWarps extends JavaPlugin {
 
     @Override
     public void onEnable() {
         ConfigUtils.init(this);
         PluginHolder.setPluginInstance(this);
-        CommandRegistrar.command("warp", new WarpCommand())
-                .aliases(List.of("w"))
-                .permission("fastwarps.warp")
-                .completer(new WarpTabCompleter())
-                .register();
+        Registrar.get().register();
+        save();
+    }
 
-        CommandRegistrar.command("setwarp", new SetWarpCommand())
-                .aliases(Arrays.asList("sw", "swarp", "setw", "setwar"))
-                .permission("fastwarps.setwarp")
-                .register();
-
-        CommandRegistrar.command("delwarp", new DelWarpCommand())
-                .aliases(Arrays.asList("dw", "dewarp", "delw", "delwar"))
-                .permission("fastwarps.delwarp")
-                .completer(new WarpTabCompleter())
-                .register();
-
-        CommandRegistrar.command("delallwarps", new DelAllWarpsCommand())
-                .aliases(Arrays.asList("daw", "delallwarp"))
-                .permission("fastwarps.delallwarp")
-                .register();
-
-        CommandRegistrar.command("warps", new WarpsCommand())
-                .permission("fastwarps.warps")
-                .register();
+    protected void save() {
+        File counting = new File(getDataFolder(), "counting.yml");
+        if (!counting.exists()) {
+            saveResource("counting.yml", false);
+        }
     }
 }

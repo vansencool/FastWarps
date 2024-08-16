@@ -16,9 +16,9 @@ public class SetWarpCommand implements CommandExecutor {
             return true;
         }
         if (args.length != 0) {
-            Configer.loadAsync("warps/warps.yml").thenAcceptAsync(config -> {
-                config.set("warps." + args[0], player.getLocation());
-                config.saveAsync().thenRunAsync(() -> player.sendMessage("Warp has been set to your location!"));
+            Configer.loadAsync("warps/" + args[0] + ".yml").thenAcceptAsync(config -> {
+                config.set("location", player.getLocation());
+                config.saveAsync().thenRunAsync(() -> player.sendMessage("Setted the warp " + args[0] + "!"));
             });
         } else {
             player.sendMessage("Please specify a warp name");

@@ -1,11 +1,16 @@
 package dev.vansen.fastwarps.commands;
 
-import dev.vansen.configutils.Configer;
+import com.maximde.pluginsimplifier.PluginHolder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Objects;
 
 public class DelAllWarpsCommand implements CommandExecutor {
 
@@ -15,10 +20,21 @@ public class DelAllWarpsCommand implements CommandExecutor {
             sender.sendMessage("Only players can use this command");
             return false;
         }
-        Configer.loadAsync("warps/warps.yml").thenAcceptAsync(config -> {
-            config.set("warps", null);
-            config.saveAsync().thenRunAsync(() -> player.sendMessage("All warps have been deleted!"));
-        });
+        try {
+            Files.list(Objects.requireNonNull(new File(PluginHolder.getPluginInstance().getDataFolder(), "warps").toPath()))
+                    .parallel()
+                    .filter(path -> path.toString().endsWith(".yml"))
+                    .forEach(path -> {
+                        try {
+                            Files.delete(path);
+                        } catch (final IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+            player.sendMessage("All warps have been deleted!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 }
