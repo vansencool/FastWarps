@@ -20,6 +20,7 @@ public class WarpCommand implements CommandExecutor {
             Configer.loadAsync("warps/warps.yml").thenAcceptAsync(config -> {
                 if (config.contains("warps." + args[0])) {
                     PaperLib.teleportAsync(player, config.getLocation("warps." + args[0]));
+                    player.sendMessage("Teleported to warp " + args[0] + "!");
                 } else {
                     player.sendMessage("Warp not found!");
                 }
