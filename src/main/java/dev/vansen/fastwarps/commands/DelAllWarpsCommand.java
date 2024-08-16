@@ -7,23 +7,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class SetWarpCommand implements CommandExecutor {
-
+public class DelAllWarpsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("Only players can use this command");
-            return true;
+            return false;
         }
-        if (args.length != 0) {
-            Configer.loadAsync("warps/warps.yml").thenAcceptAsync(config -> {
-                config.set("warps." + args[0], player.getLocation());
-                config.saveAsync().thenRunAsync(() -> player.sendMessage("Warp has been set to your location!"));
-            });
-        } else {
-            player.sendMessage("Please specify a warp name");
-        }
+        Configer.loadAsync("warps/warps.yml").thenAcceptAsync(config -> {
+            config.set("warps", null);
+            config.saveAsync().thenRunAsync(() -> player.sendMessage("All warps have been deleted!"));
+        });
         return true;
     }
 }
