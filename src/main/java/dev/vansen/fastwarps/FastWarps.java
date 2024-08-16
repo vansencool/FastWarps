@@ -3,10 +3,7 @@ package dev.vansen.fastwarps;
 import com.maximde.pluginsimplifier.PluginHolder;
 import com.maximde.pluginsimplifier.command.CommandRegistrar;
 import dev.vansen.configutils.ConfigUtils;
-import dev.vansen.fastwarps.commands.DelAllWarpsCommand;
-import dev.vansen.fastwarps.commands.DelWarpCommand;
-import dev.vansen.fastwarps.commands.SetWarpCommand;
-import dev.vansen.fastwarps.commands.WarpCommand;
+import dev.vansen.fastwarps.commands.*;
 import dev.vansen.fastwarps.tabcompleters.WarpTabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -39,6 +36,10 @@ public class FastWarps extends JavaPlugin {
         CommandRegistrar.command("delallwarps", new DelAllWarpsCommand())
                 .aliases(Arrays.asList("daw", "delallwarp"))
                 .permission("fastwarps.delallwarp")
+                .register();
+
+        CommandRegistrar.command("warps", new WarpsCommand())
+                .permission("fastwarps.warps")
                 .register();
     }
 }
