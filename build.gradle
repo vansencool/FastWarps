@@ -49,7 +49,6 @@ shadowJar {
     mergeServiceFiles()
     configurations = [project.configurations.runtimeClasspath]
     exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
-    destinationDirectory.set(file("D:/vansen/Practice/plugins"))
 }
 
 
