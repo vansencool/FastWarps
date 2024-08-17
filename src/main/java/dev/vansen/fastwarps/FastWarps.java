@@ -12,9 +12,8 @@ public class FastWarps extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        ConfigUtils.init(this);
-        PluginHolder.setPluginInstance(this);
         Registrar.get().register();
+        init();
         save();
     }
 
@@ -23,5 +22,10 @@ public class FastWarps extends JavaPlugin {
         if (!counting.exists()) {
             saveResource("counting.yml", false);
         }
+    }
+
+    protected void init() {
+        ConfigUtils.init(this);
+        PluginHolder.setPluginInstance(this);
     }
 }
